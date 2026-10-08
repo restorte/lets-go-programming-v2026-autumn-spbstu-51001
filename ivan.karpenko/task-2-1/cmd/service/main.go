@@ -7,13 +7,11 @@ import (
 
 var (
 	errEmplCount = errors.New("employees  must be != 0 and <= 1000")
-	errOffCount  = errors.New("number of offices must be != 0 and <= 1000.")
+	errOffCount  = errors.New("number of offices must be != 0 and <= 1000")
 	errOp        = errors.New("operator must be <= or >=")
 )
 
-var (
-	opLen = 2
-)
+const opLen = 2
 
 func TempCalc(op string, temp uint, maxTemp *uint, minTemp *uint) int {
 	switch op {
@@ -35,8 +33,8 @@ func TempCalc(op string, temp uint, maxTemp *uint, minTemp *uint) int {
 }
 
 func main() {
-
 	var offCount uint
+
 	_, err := fmt.Scan(&offCount)
 	if err != nil {
 		fmt.Println(err)
@@ -52,8 +50,8 @@ func main() {
 
 	var i uint
 	for ; i < offCount; i++ {
-
 		var EmplCount uint
+
 		_, err := fmt.Scan(&EmplCount)
 		if err != nil {
 			fmt.Println(err)
@@ -74,8 +72,8 @@ func main() {
 
 		var j uint
 		for ; j < EmplCount; j++ {
-
 			var op string
+
 			_, err := fmt.Scan(&op)
 			if err != nil {
 				fmt.Println(err)
@@ -90,6 +88,7 @@ func main() {
 			}
 
 			var temp uint
+
 			_, err = fmt.Scan(&temp)
 			if err != nil {
 				fmt.Println(err)
