@@ -11,32 +11,33 @@ var (
 	errOp        = errors.New("operator must be <= or >=")
 )
 
-const opLen = 2
+const (
+	defaultMinTemp = 15
+	defaultMaxTemp = 30
+)
 
-func TempCalc(op string, temp uint, maxTemp *uint, minTemp *uint) int {
-	switch op {
-	case ">=":
+func TempCalc(op string, temp int, minTemp *int, maxTemp *int) int {
+	if op == ">=" {
 		if temp > *minTemp {
 			*minTemp = temp
 		}
-	case "<=":
+	} else if op == "<=" {
 		if temp < *maxTemp {
 			*maxTemp = temp
 		}
 	}
 
-	if *maxTemp < *minTemp {
+	if *minTemp > *maxTemp {
 		return -1
 	}
 
-	return int(*minTemp)
+	return *minTemp
 }
 
 func main() {
 	var offCount uint
 
-	_, err := fmt.Scan(&offCount)
-	if err != nil {
+	if _, err := fmt.Scan(&offCount); err != nil {
 		fmt.Println(err)
 
 		return
@@ -50,53 +51,42 @@ func main() {
 
 	var i uint
 	for ; i < offCount; i++ {
-		var EmplCount uint
+		var emplCount uint
 
-		_, err := fmt.Scan(&EmplCount)
-		if err != nil {
+		if _, err := fmt.Scan(&emplCount); err != nil {
 			fmt.Println(err)
 
 			return
 		}
 
-		if EmplCount == 0 || EmplCount > 1000 {
+		if emplCount == 0 || emplCount > 1000 {
 			fmt.Println("EmplCount err: ", errEmplCount)
 
 			return
 		}
 
-		var (
-			minTemp uint = 15
-			maxTemp uint = 30
-		)
+		minTemp, maxTemp := defaultMinTemp, defaultMaxTemp
 
 		var j uint
-		for ; j < EmplCount; j++ {
-			var op string
+		for ; j < emplCount; j++ {
+			var (
+				operator string
+				temp     int
+			)
 
-			_, err := fmt.Scan(&op)
-			if err != nil {
+			if _, err := fmt.Scan(&operator, &temp); err != nil {
 				fmt.Println(err)
 
 				return
 			}
 
-			if (len(op) != opLen) || (op != "<=" && op != ">=") {
+			if operator != "<=" && operator != ">=" {
 				fmt.Println("op err: ", errOp)
 
 				return
 			}
 
-			var temp uint
-
-			_, err = fmt.Scan(&temp)
-			if err != nil {
-				fmt.Println(err)
-
-				return
-			}
-
-			fmt.Println(TempCalc(op, temp, &maxTemp, &minTemp))
+			fmt.Println(TempCalc(operator, temp, &minTemp, &maxTemp))
 		}
 	}
 }
