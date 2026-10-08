@@ -15,6 +15,25 @@ var (
 	opLen = 2
 )
 
+func TempCalc(op string, temp uint, maxTemp *uint, minTemp *uint) int {
+	switch op {
+	case ">=":
+		if temp > *minTemp {
+			*minTemp = temp
+		}
+	case "<=":
+		if temp < *maxTemp {
+			*maxTemp = temp
+		}
+	}
+
+	if *maxTemp < *minTemp {
+		return -1
+	}
+
+	return int(*minTemp)
+}
+
 func main() {
 
 	var offCount uint
@@ -78,6 +97,7 @@ func main() {
 				return
 			}
 
+			fmt.Println(TempCalc(op, temp, &maxTemp, &minTemp))
 		}
 	}
 }
